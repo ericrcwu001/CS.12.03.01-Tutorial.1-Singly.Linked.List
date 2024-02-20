@@ -72,15 +72,23 @@ public class SinglyLinkedList<T> {
         first.next = head;
         head = first;
         size++;
+        if (size == 1) tail = first;
     }
 
     // addLast
     // Adds a node to the back of the Singly Linked List.
     public void addLast(T value) {
         Node<T> last = new Node<>(value);
+        if (tail == null) {
+            tail = last;
+            head = last;
+            size++;
+            return;
+        }
         tail.next = last;
         tail = last;
         size++;
+        if (size == 1) head = last;
     }
 
     // insertAt
@@ -115,7 +123,7 @@ public class SinglyLinkedList<T> {
         T removed = head.data;
         head = head.next;
         size--;
-        if (size == 0) tail = null;
+        if (size == 0) {head = null; tail = null;}
         return removed;
     }
 
@@ -148,7 +156,7 @@ public class SinglyLinkedList<T> {
     // throws an illegal argument exception if the index is invalid.
 
     public T removeAt(int index) {
-        if (index >= size) throw new IllegalArgumentException("Index is out of bounds!");
+        if (index >= size || index < 0) throw new IllegalArgumentException("Index is out of bounds!");
         if (index == 0) return removeFirst();
         if (index == size - 1) return removeLast();
 
@@ -215,12 +223,11 @@ public class SinglyLinkedList<T> {
         Node<T> traversal = head;
         while (traversal != null) {
             sb.append(traversal.data);
-            if (traversal.next != null) {
-                sb.append(" -> ");
-            }
+            sb.append(" -> ");
+
             traversal = traversal.next;
         }
-        sb.append(" -> null");
+        sb.append("null");
         return sb.toString();
     }
 
